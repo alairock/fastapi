@@ -5,7 +5,7 @@ from pathlib import PurePath
 from types import GeneratorType
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
 
-from pydantic import BaseModel
+from pydantic import BaseModel, AnyUrl
 from pydantic.json import ENCODERS_BY_TYPE
 
 SetIntStr = Set[Union[int, str]]
@@ -67,6 +67,8 @@ def jsonable_encoder(
     if isinstance(obj, Enum):
         return obj.value
     if isinstance(obj, PurePath):
+        return str(obj)
+    if isinstance(obj, AnyUrl):
         return str(obj)
     if isinstance(obj, (str, int, float, type(None))):
         return obj
